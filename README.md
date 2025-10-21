@@ -2,7 +2,7 @@
 
 ![SQL](https://img.shields.io/badge/SQL-MySQL%208.0%2B-4479A1?logo=mysql&logoColor=white) ![License](https://img.shields.io/badge/license-BlackCat%20Proprietary-red) ![Status](https://img.shields.io/badge/status-stable-informational) ![Generated](https://img.shields.io/badge/generated-from%20schema--map-blue)
 
-> Schema package for table **two_factor** (repo: $slug).
+> Schema package for table **two_factor** (repo: `two-factor`).
 
 ## Files
 ```
@@ -52,14 +52,14 @@ mysql -h 127.0.0.1 -P 3307 -u root -proot app < schema/030_foreign_keys.sql
 ```mermaid
 erDiagram
   TWO_FACTOR {
-    BIGINT user_id
-    VARCHAR(50) method
-    VARBINARY(255) secret
-    LONGBLOB recovery_codes_enc
-    BIGINT hotp_counter
+    INT user_id
+    VARCHAR method
+    BLOB secret
+    BLOB recovery_codes_enc
+    INT hotp_counter
     BOOLEAN enabled
-    DATETIME(6) created_at
-    DATETIME(6) last_used_at
+    DATETIME created_at
+    DATETIME last_used_at
   }
   TWO_FACTOR }o--|| USERS : "user_id"
 ```
