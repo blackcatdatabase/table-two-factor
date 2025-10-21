@@ -61,7 +61,7 @@ erDiagram
     DATETIME(6) created_at
     DATETIME(6) last_used_at
   }
-  TWO_FACTOR }o--|| USERS : (user_id)
+  TWO_FACTOR }o--|| USERS : "user_id"
 ```
 
 ## Indexes
