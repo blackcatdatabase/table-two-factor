@@ -1,4 +1,4 @@
--- Auto-generated from schema-map.psd1 (map@1e83bb6)
+-- Auto-generated from schema-map.psd1 (map@6cefe8e)
 -- table: two_factor
 CREATE TABLE IF NOT EXISTS two_factor (
   user_id BIGINT UNSIGNED NOT NULL,
