@@ -6,7 +6,7 @@ namespace BlackCat\Database\Packages\TwoFactor;
 final class Definitions {
     // --- základní metadata ---
     public static function table(): string { return 'two_factor'; }
-    public static function contractView(): string { return 'v_two_factor_contract'; }
+    public static function contractView(): string { return 'vw_two_factor'; }
     /** @return string[] */
     public static function columns(): array { return [ 'user_id', 'method', 'secret', 'recovery_codes_enc', 'hotp_counter', 'enabled', 'created_at', 'last_used_at' ]; }
     public static function pk(): string { return 'user_id'; }
