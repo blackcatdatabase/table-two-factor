@@ -1,4 +1,4 @@
--- Auto-generated from schema-map-postgres.psd1 (map@mtime:2025-10-24T09:46:38Z)
+-- Auto-generated from schema-map-postgres.psd1 (map@38d5403)
 -- engine: postgres
 -- table:  two_factor
 CREATE TABLE IF NOT EXISTS two_factor (
@@ -9,6 +9,9 @@ CREATE TABLE IF NOT EXISTS two_factor (
   hotp_counter BIGINT NULL,
   enabled BOOLEAN NOT NULL DEFAULT FALSE,
   created_at TIMESTAMPTZ(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  version INTEGER NOT NULL DEFAULT 0,
+  CONSTRAINT chk_two_factor_version CHECK (version >= 0),
   last_used_at TIMESTAMPTZ(6) NULL,
-  PRIMARY KEY (user_id, method)
+  PRIMARY KEY (user_id, method),
+  CONSTRAINT chk_two_factor_hotp_counter CHECK (hotp_counter IS NULL OR hotp_counter >= 0)
 );
