@@ -9,7 +9,24 @@ final class Definitions {
     public static function contractView(): string { return 'vw_two_factor'; }
     /** @return string[] */
     public static function columns(): array { return [ 'user_id', 'method', 'secret', 'recovery_codes_enc', 'hotp_counter', 'enabled', 'created_at', 'version', 'last_used_at' ]; }
-    public static function pk(): string { return 'user_id'; }
+
+    /**
+     * Primární klíč(e) tabulky. Podporuje jednoduché i složené PK.
+     * user_id method může být "id" nebo "col1, col2".
+     * @return string[]
+     */
+    public static function pkColumns(): array {
+        $raw = 'user_id method';
+        // povol formát "a,b" i s mezerami
+        $parts = array_values(array_filter(array_map(
+            static fn($p) => trim($p, " \t\n\r\0\x0B`\""),
+            preg_split('/\s*,\s*/', $raw ?? '')
+        )));
+        if (!$parts) { return [$raw]; }
+        return $parts;
+    }
+    /** Zpětná kompatibilita: první sloupec z PK. */
+    public static function pk(): string { return self::pkColumns()[0]; }
 
     // --- volitelná metadata ---
     public static function softDeleteColumn(): ?string {
@@ -23,12 +40,27 @@ final class Definitions {
     }
     /** např. "created_at DESC, id DESC" */
     public static function defaultOrder(): ?string {
-        $c = 'created_at DESC, user_id DESC'; return $c !== '' ? $c : null;
+        $c = 'created_at DESC, user_id method DESC'; return $c !== '' ? $c : null;
     }
+
     /** @return array<int,array<int,string>> seznam unikátních klíčů */
-    public static function uniqueKeys(): array { return []; }
+    public static function uniqueKeys(): array { return [ [ 'user_id', 'method' ] ]; }
+
     /** @return string[] JSON sloupce kvůli castům/operacím */
     public static function jsonColumns(): array { return []; }
+
+    /** @return string[] Seznam číselných sloupců (heuristika z generátoru; bez runtime DB dotazů). */
+    public static function intColumns(): array { return [ 'user_id', 'hotp_counter', 'version' ]; }
+
+    /** @return array<string,string> alias => column (pro normalizaci vstupů) */
+    public static function paramAliases(): array { return []; }
+
+    /** Hint pro repo: je sloupec s verzí opravdu číselný? (bez information_schema) */
+    public static function versionIsNumeric(): bool
+    {
+        $v = self::versionColumn();
+        return $v !== null && in_array($v, self::intColumns(), true);
+    }
 
     // --- pomocníci ---
     public static function hasColumn(string $col): bool {
@@ -41,7 +73,7 @@ final class Definitions {
      * identity | uuid | natural | composite
      */
     public static function pkStrategy(): string {
-        $c = 'composite';
+        $c = 'natural';
         return $c !== '' ? $c : 'natural';
     }
 
