@@ -1,4 +1,4 @@
--- Auto-generated from schema-views-postgres.psd1 (map@c5e4097)
+-- Auto-generated from schema-views-postgres.psd1 (map@db2f8b8)
 -- engine: postgres
 -- table:  two_factor
 -- Contract view for [two_factor]
@@ -12,6 +12,6 @@ SELECT
   created_at,
   version,
   last_used_at,
-  encode(secret, 'hex')            AS secret_hex,
-  encode(recovery_codes_enc, 'hex') AS recovery_codes_enc_hex
+  UPPER(encode(secret,'hex'))::char(64)            AS secret_hex,
+  UPPER(encode(recovery_codes_enc,'hex'))::char(64) AS recovery_codes_enc_hex
 FROM two_factor;
