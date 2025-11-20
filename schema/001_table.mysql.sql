@@ -1,4 +1,4 @@
--- Auto-generated from schema-map-mysql.psd1 (map@db2f8b8)
+-- Auto-generated from schema-map-mysql.psd1 (map@734a489)
 -- engine: mysql
 -- table:  two_factor
 CREATE TABLE IF NOT EXISTS two_factor (
@@ -12,4 +12,4 @@ CREATE TABLE IF NOT EXISTS two_factor (
   version INT UNSIGNED NOT NULL DEFAULT 0,
   last_used_at DATETIME(6) NULL,
   PRIMARY KEY (user_id, `method`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=DYNAMIC;

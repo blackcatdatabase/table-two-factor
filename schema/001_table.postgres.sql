@@ -13,5 +13,6 @@ CREATE TABLE IF NOT EXISTS two_factor (
   CONSTRAINT chk_two_factor_version CHECK (version >= 0),
   last_used_at TIMESTAMPTZ(6) NULL,
   PRIMARY KEY (user_id, method),
-  CONSTRAINT chk_two_factor_hotp_counter CHECK (hotp_counter IS NULL OR hotp_counter >= 0)
+  CONSTRAINT chk_two_factor_hotp_counter CHECK (hotp_counter IS NULL OR hotp_counter >= 0),
+  CONSTRAINT chk_two_factor_method CHECK (method IN ('totp','hotp','webauthn','sms','email'))
 );
