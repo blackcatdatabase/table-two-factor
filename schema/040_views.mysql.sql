@@ -1,12 +1,16 @@
--- Auto-generated from schema-views-mysql.psd1 (map@db2f8b8)
+-- Auto-generated from schema-views-mysql.psd1 (map@62c9c93)
 -- engine: mysql
 -- table:  two_factor
 -- Contract view for [two_factor]
--- Hides secret and recovery_codes_enc; keeps method and state.
+-- Exposes secret/recovery blobs with hex helpers for troubleshooting.
 CREATE OR REPLACE ALGORITHM=MERGE SQL SECURITY INVOKER VIEW vw_two_factor AS
 SELECT
   user_id,
   `method`,
+  secret,
+  UPPER(HEX(secret)) AS secret_hex,
+  recovery_codes_enc,
+  UPPER(HEX(recovery_codes_enc)) AS recovery_codes_enc_hex,
   hotp_counter,
   enabled,
   created_at,
