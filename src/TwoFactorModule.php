@@ -32,15 +32,49 @@ final class TwoFactorModule implements ModuleInterface
         $table = SqlIdentifier::qi($db, $this->table());
         $view  = SqlIdentifier::qi($db, self::contractView());
 
+        if ($d->isMysql()) {
+            $createViewSql = <<<'SQL'
+CREATE OR REPLACE ALGORITHM=MERGE SQL SECURITY INVOKER VIEW vw_two_factor AS
+SELECT
+  user_id,
+  `method`,
+  secret,
+  CAST(UPPER(SHA2(secret, 256)) AS CHAR(64)) AS secret_hex,
+  recovery_codes_enc,
+  CAST(UPPER(SHA2(recovery_codes_enc, 256)) AS CHAR(64)) AS recovery_codes_enc_hex,
+  hotp_counter,
+  enabled,
+  created_at,
+  version,
+  last_used_at
+FROM two_factor;
+SQL;
+        } else {
+            $createViewSql = <<<'SQL'
+CREATE OR REPLACE VIEW vw_two_factor AS
+SELECT
+  user_id,
+  method,
+  secret,
+  UPPER(encode(digest(secret,'sha256'),'hex')) AS secret_hex,
+  recovery_codes_enc,
+  UPPER(encode(digest(recovery_codes_enc,'sha256'),'hex')) AS recovery_codes_enc_hex,
+  hotp_counter,
+  enabled,
+  created_at,
+  version,
+  last_used_at
+FROM two_factor;
+SQL;
+        }
+
         if (\class_exists('\\BlackCat\\Database\\Support\\DdlGuard')) {
-            (new \BlackCat\Database\Support\DdlGuard($db, $d))->applyCreateView(
-                "CREATE VIEW {$view} AS SELECT * FROM {$table}"
-            );
+            (new \BlackCat\Database\Support\DdlGuard($db, $d))->applyCreateView($createViewSql);
         } else {
             // Prefer CREATE OR REPLACE VIEW (gentle on dependencies)
-            $sql = "CREATE OR REPLACE VIEW {$view} AS SELECT * FROM {$table}";
-            $db->exec($sql);
+            $db->exec($createViewSql);
         }
+
     }
 
     public function upgrade(Database $db, SqlDialect $d, string $from): void
@@ -69,6 +103,13 @@ final class TwoFactorModule implements ModuleInterface
 
         // Quick index/FK check – generator injects names (case-sensitive per DB)
         $expectedIdx = [];
+        if ($d->isMysql()) {
+            // Drop PG-only index naming patterns (e.g., GIN/GiST)
+            $expectedIdx = array_values(array_filter(
+                $expectedIdx,
+                static fn(string $n): bool => !str_starts_with($n, 'gin_') && !str_starts_with($n, 'gist_')
+            ));
+        }
         $expectedFk  = [ 'fk_two_factor_user' ];
 
         $haveIdx = $hasTable ? SchemaIntrospector::listIndexes($db, $d, $table)     : [];

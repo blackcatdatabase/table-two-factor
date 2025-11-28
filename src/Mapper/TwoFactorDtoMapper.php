@@ -17,7 +17,7 @@ use BlackCat\Database\Support\DtoHydrator;
 final class TwoFactorDtoMapper
 {
     /** @var array<string,string> Column -> DTO property */
-    private const COL_TO_PROP = [ 'user_id' => 'userId', 'recovery_codes_enc' => 'recoveryCodesEnc', 'hotp_counter' => 'hotpCounter', 'created_at' => 'createdAt', 'last_used_at' => 'lastUsedAt' ];
+    private const COL_TO_PROP = [ 'user_id' => 'userId', 'method' => 'method', 'secret' => 'secret', 'recovery_codes_enc' => 'recoveryCodesEnc', 'hotp_counter' => 'hotpCounter', 'enabled' => 'enabled', 'created_at' => 'createdAt', 'version' => 'version', 'last_used_at' => 'lastUsedAt' ];
 
     /** @var string[] */
     private const BOOL_COLS   = [ 'enabled' ];

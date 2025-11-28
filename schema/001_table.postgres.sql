@@ -1,6 +1,7 @@
--- Auto-generated from schema-map-postgres.psd1 (map@62c9c93)
+-- Auto-generated from schema-map-postgres.psd1 (map@mtime:2025-11-21T00:25:46Z)
 -- engine: postgres
 -- table:  two_factor
+
 CREATE TABLE IF NOT EXISTS two_factor (
   user_id BIGINT NOT NULL,
   method VARCHAR(50) NOT NULL,
