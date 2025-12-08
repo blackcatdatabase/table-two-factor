@@ -5,13 +5,13 @@ Second factor configuration per user/method.
 ## Columns
 | Column | Type | Null | Default | Description |
 | --- | --- | --- | --- | --- |
-| created_at | TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |
+| created_at | DATETIME(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |
 | enabled | BOOLEAN | NO | FALSE | Whether method is enabled. |
 | hotp_counter | BIGINT | YES |  | HOTP counter (if HOTP). |
-| last_used_at | TIMESTAMPTZ(6) | YES |  | Last successful use (UTC). |
+| last_used_at | DATETIME(6) | YES |  | Last successful use (UTC). |
 | method | VARCHAR(50) | NO |  | 2FA method key (e.g., totp, hotp, webauthn). |
-| recovery_codes_enc | BYTEA | YES |  | Encrypted recovery codes. |
-| secret | BYTEA | YES |  | Shared secret (encrypted/encoded). |
+| recovery_codes_enc | LONGBLOB | YES |  | Encrypted recovery codes. |
+| secret | VARBINARY(255) | YES |  | Shared secret (encrypted/encoded). |
 | user_id | BIGINT | NO |  | User (FK users.id). |
 
 ## Engine Details
@@ -35,5 +35,5 @@ Foreign keys:
 ## Views
 | View | Engine | Flags | File |
 | --- | --- | --- | --- |
-| vw_two_factor | mysql | algorithm=MERGE, security=INVOKER | [packages\two-factor\schema\040_views.mysql.sql](https://github.com/blackcatacademy/blackcat-database/packages/two-factor/schema/040_views.mysql.sql) |
-| vw_two_factor | postgres |  | [packages\two-factor\schema\040_views.postgres.sql](https://github.com/blackcatacademy/blackcat-database/packages/two-factor/schema/040_views.postgres.sql) |
+| vw_two_factor | mysql | algorithm=MERGE, security=INVOKER | [schema\040_views.mysql.sql](schema\040_views.mysql.sql) |
+| vw_two_factor | postgres |  | [schema\040_views.postgres.sql](schema\040_views.postgres.sql) |
