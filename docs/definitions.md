@@ -5,11 +5,11 @@ Second factor configuration per user/method.
 ## Columns
 | Column | Type | Null | Default | Description |
 | --- | --- | --- | --- | --- |
-| created_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |
-| enabled | BOOLEAN | NO | FALSE | Whether method is enabled. |
-| hotp_counter | BIGINT | YES |  | HOTP counter (if HOTP). |
 | last_used_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | YES |  | Last successful use (UTC). |
+| created_at | mysql: DATETIME(6) / postgres: TIMESTAMPTZ(6) | NO | CURRENT_TIMESTAMP(6) | Creation timestamp (UTC). |
+| hotp_counter | BIGINT | YES |  | HOTP counter (if HOTP). |
 | method | VARCHAR(50) | NO |  | 2FA method key (e.g., totp, hotp, webauthn). |
+| enabled | BOOLEAN | NO | FALSE | Whether method is enabled. |
 | recovery_codes_enc | mysql: LONGBLOB / postgres: BYTEA | YES |  | Encrypted recovery codes. |
 | secret | mysql: VARBINARY(255) / postgres: BYTEA | YES |  | Shared secret (encrypted/encoded). |
 | user_id | BIGINT | NO |  | User (FK users.id). |
