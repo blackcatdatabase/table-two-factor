@@ -41,11 +41,11 @@ final class Criteria extends BaseCriteria
         return [ 'method' ];
     }
 
-/** Columns allowed in ORDER BY (falls back to filterable() when empty). */
-protected function sortable(): array
-{
-    return [ 'user_id', 'method', 'hotp_counter', 'enabled', 'created_at', 'version', 'last_used_at' ];
-}
+    /** Columns allowed in ORDER BY (falls back to filterable() when empty). */
+    protected function sortable(): array
+    {
+        return [ 'user_id', 'method', 'hotp_counter', 'enabled', 'created_at', 'version', 'last_used_at' ];
+    }
 
     /**
      * Whitelist of joinable entities (for safe ->join() usage):
