@@ -1,0 +1,47 @@
+{
+  "tables": {
+    "two_factor": {
+      "columns": {
+        "created_at": {
+          "strategy": "passthrough"
+        },
+        "enabled": {
+          "strategy": "passthrough"
+        },
+        "hotp_counter": {
+          "strategy": "passthrough"
+        },
+        "last_used_at": {
+          "strategy": "passthrough"
+        },
+        "method": {
+          "strategy": "passthrough"
+        },
+        "recovery_codes_enc": {
+          "context": "db.vault.two_factor.recovery_codes_enc",
+          "key_version_column": "recovery_codes_enc_key_version",
+          "strategy": "encrypt",
+          "write_key_version": true
+        },
+        "recovery_codes_enc_key_version": {
+          "strategy": "passthrough"
+        },
+        "secret": {
+          "context": "db.vault.two_factor.secret",
+          "key_version_column": "secret_key_version",
+          "strategy": "encrypt",
+          "write_key_version": true
+        },
+        "secret_key_version": {
+          "strategy": "passthrough"
+        },
+        "user_id": {
+          "strategy": "passthrough"
+        },
+        "version": {
+          "strategy": "passthrough"
+        }
+      }
+    }
+  }
+}
