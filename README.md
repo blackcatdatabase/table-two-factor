@@ -1,6 +1,6 @@
 # 📦 Two Factor
 
-> Auto-generated from [schema-map-postgres.yaml](https://github.com/blackcatacademy/blackcat-database/blob/main/scripts/schema/schema-map-postgres.yaml) (map@sha1:260cf51de6e2c742030665b35b370cdae36de2c6). Do not edit manually.
+> Auto-generated from [schema-map-postgres.yaml](https://github.com/blackcatacademy/blackcat-database/blob/main/scripts/schema/schema-map-postgres.yaml) (map@sha1:9f30f03eb2ba280e22d2319d26d21b39683a872a). Do not edit manually.
 > Targets: PHP 8.3; MySQL 8.x / MariaDB 10.4; Postgres 15+.
 
 ![PHP](https://img.shields.io/badge/PHP-8.3-blueviolet) ![DB](https://img.shields.io/badge/DB-MySQL%20%7C%20MariaDB%20%7C%20Postgres-informational) ![License](https://img.shields.io/badge/license-BlackCat%20Proprietary-red) ![Status](https://img.shields.io/badge/status-stable-success)
@@ -11,7 +11,7 @@
 
 > **Schema snapshot**
 > Map: [schema-map-postgres.yaml](https://github.com/blackcatacademy/blackcat-database/blob/main/scripts/schema/schema-map-postgres.yaml) · Docs: [docs/definitions.md](docs/definitions.md) · Drift warnings: 0
-> Lineage: 1 outbound / 0 inbound · ✅ No engine drift detected · Index coverage: todo · PII flags: 4 · Changelog: fresh
+> Lineage: 1 outbound / 0 inbound · ✅ No engine drift detected · Index coverage: todo · PII flags: 2 · Changelog: fresh
 
 ## Quick Links
 | What | Link | Notes |
@@ -43,7 +43,7 @@
 ## At a Glance
 | Metric | Count |
 | --- | --- |
-| Columns | **13** |
+| Columns | **10** |
 | Indexes | **0** |
 | Foreign keys | **3** |
 | Unique keys | **0** |
@@ -52,7 +52,7 @@
 | Views | **4** |
 | Seeds | **0** |
 | Drift warnings | **0** |
-| PII flags | **4** |
+| PII flags | **2** |
 
 ## Summary
 | Item | Value |
@@ -98,7 +98,6 @@ _No engine differences detected._
 ## Constraints Snapshot
 - `enabled` – default=FALSE
 - `created_at` – default=CURRENT_TIMESTAMP(6)
-- `version` – default=0
 
 ## Schema Files
 | File | Engine |
@@ -123,9 +122,7 @@ _No seed files found._
 ## Compliance Notes
 > ⚠️ Potential PII/secret fields – review retention/encryption policies:
 - method (key)
-- recovery_codes_enc_key_version (key)
 - secret (secret)
-- secret_key_version (secret)
 
 ## Usage
 ```bash
