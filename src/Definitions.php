@@ -8,7 +8,7 @@ final class Definitions {
     public static function table(): string { return 'two_factor'; }
     public static function contractView(): string { return 'vw_two_factor'; }
     /** @return string[] */
-    public static function columns(): array { return [ 'user_id', 'method', 'secret', 'secret_key_version', 'recovery_codes_enc', 'recovery_codes_enc_key_version', 'hotp_counter', 'enabled', 'created_at', 'version', 'last_used_at' ]; }
+    public static function columns(): array { return [ 'user_id', 'method', 'secret', 'recovery_codes_enc', 'hotp_counter', 'enabled', 'created_at', 'version', 'last_used_at' ]; }
 
     /** @var array<string,array<int,string>> */
     public const STATUS_TRANSITIONS = [];

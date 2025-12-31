@@ -151,7 +151,7 @@ use OrderByTools, PkTools, RepositoryHelpers;
 
         $keys = $this->resolveUpsertKeys();
 
-        $updCols = [ 'secret', 'secret_key_version', 'recovery_codes_enc', 'recovery_codes_enc_key_version', 'hotp_counter', 'enabled', 'last_used_at' ];
+        $updCols = [ 'secret', 'recovery_codes_enc', 'hotp_counter', 'enabled', 'last_used_at' ];
         $updCols = array_values(array_diff($updCols, array_merge($this->pkColumns(Definitions::class), $keys)));
 
         // Revive policy
@@ -222,7 +222,7 @@ use OrderByTools, PkTools, RepositoryHelpers;
         $helperKeys = $this->resolveUpsertKeys();
         if ($helperKeys && class_exists(\BlackCat\Database\Support\BulkUpsertHelper::class)) {
           $bulk = new \BlackCat\Database\Support\BulkUpsertHelper($this->db, \BlackCat\Database\Packages\TwoFactor\Definitions::class);
-          $bulk->upsertMany($rows, $helperKeys, [ 'secret', 'secret_key_version', 'recovery_codes_enc', 'recovery_codes_enc_key_version', 'hotp_counter', 'enabled', 'last_used_at' ]);
+          $bulk->upsertMany($rows, $helperKeys, [ 'secret', 'recovery_codes_enc', 'hotp_counter', 'enabled', 'last_used_at' ]);
           return count($rows);
         }
 
@@ -253,7 +253,7 @@ use OrderByTools, PkTools, RepositoryHelpers;
           if (!$rows) { return 0; }
 
           /** @var list<string> $updCols */
-          $updCols = [ 'secret', 'secret_key_version', 'recovery_codes_enc', 'recovery_codes_enc_key_version', 'hotp_counter', 'enabled', 'last_used_at' ];
+          $updCols = [ 'secret', 'recovery_codes_enc', 'hotp_counter', 'enabled', 'last_used_at' ];
           if ($updCols && $soft && !in_array($soft, $updCols, true)) { $updCols[] = $soft; }
 
           $bulk = new \BlackCat\Database\Support\BulkUpsertHelper($this->db, \BlackCat\Database\Packages\TwoFactor\Definitions::class);
